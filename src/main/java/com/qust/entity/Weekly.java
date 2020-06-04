@@ -16,8 +16,10 @@ public class Weekly implements Serializable {
   private Integer weekId;
   private String weekContent;
   private Integer weekTab;
-  private Date weekTime;
+  private String weekTime;
   private Integer stuId;
   private Integer flag;
+
+  private Student student;
 
 }

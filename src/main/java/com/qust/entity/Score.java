@@ -18,4 +18,7 @@ public class Score implements Serializable {
   private Integer stuId;
   private Integer couId;
 
+  private Student student;
+  private Course course;
+
 }
