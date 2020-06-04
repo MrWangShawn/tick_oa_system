@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qust.mapper.TeacherMapper">
+    <resultMap id="stuMap" type="student">
+        <id column="stu_id" property="stuId"></id>
+        <result column="stu_name" property="stuName"></result>
+        <result column="stu_password" property="stuPassword"></result>
+        <result column="stu_number" property="stuNumber"></result>
+        <result column="stu_image" property="stuImage"></result>
+        <result column="stu_sex" property="stuSex"></result>
+        <result column="stu_birthday" property="stuBirthday"></result>
+        <result column="stu_address" property="stuAddress"></result>
+        <result column="stu_phone" property="stuPhone"></result>
+        <association property="classes" javaType="classes" resultMap="classMap" column="class_id"></association>
+
+    </resultMap>
+    <resultMap id="classMap" type="classes">
+        <id column="class_id" property="classId"></id>
+        <result column="class_name" property="className"></result>
+        <result column="class_time" property="classTime"></result>
+    </resultMap>
+    <resultMap id="courseMap" type="course">
+        <id column="cou_id" property="couId"></id>
+        <result column="cou_name" property="couName"></result>
+    </resultMap>
+    <resultMap id="scoreMap" type="score">
+         <id column="score_id" property="scoreId"></id>
+        <result column="score_grade" property="scoreGrade"></result>
+
+        <association property="course" javaType="course" resultMap="courseMap" column="cou_id"></association>
+        <association property="student" javaType="student" resultMap="stuMap" column="stu_id"></association>
+     </resultMap>
+    <resultMap id="weeklyMap" type="weekly">
+        <id column="week_id" property="weekId"></id>
+        <result column="week_content" property="weekContent"></result>
+        <result column="week_tab" property="weekTab"></result>
+        <result column="week_time" property="weekTime"></result>
+        <association property="student" javaType="student" resultMap="stuMap" column="stu_id"></association>
+    </resultMap>
+
+    <resultMap id="leaveMap" type="leaves">
+        <id column="leave_id" property="leaveId"></id>
+        <result column="leave_time" property="leaveTime"></result>
+        <result column="leave_reason" property="leaveReason"></result>
+        <result column="leave_tab" property="leaveTab"></result>
+        <association property="student" javaType="student" resultMap="stuMap" column="stu_id"></association>
+    </resultMap>
+
+    <select id="queryByteaName" resultType="teacher">
+        select * from teacher where tea_name = #{teaName}
+    </select>
+    <update id="updateByTeaId"  parameterType="teacher">
+        update teacher set tea_password = #{teaPassword},tea_address = #{teaAddress},tea_birthday=#{teaBirthday},tea_image = #{teaImage},tea_phone=#{teaPhone} where tea_id=#{teaId}
+    </update>
+    <select id="queryStu" resultMap="stuMap">
+        select * from student s inner join classes c on s.class_id = c.class_id ;
+    </select>
+    <select id="queryScore" resultMap="scoreMap" parameterType="int">
+        select * from score sc inner join student stu on sc.stu_id=stu.stu_id inner join course c on sc.cou_id = c.cou_id inner join classes cla on stu.class_id=cla.class_id    where c.tea_id = #{teaId}
+    </select>
+    <select id="queryWeekly" resultMap="weeklyMap">
+        select * from weekly w inner join student s on w.stu_id = s.stu_id where s.class_id=#{classId}
+    </select>
+    <select id="queryLeave" resultMap="leaveMap" >
+        select * from leaves l inner join student s on l.stu_id=s.stu_id where s.class_id=#{classId}
+    </select>
+    <select id="queryPersonLeave" resultMap="leaveMap">
+        select * from leaves where tea_id = #{teaId}
+    </select>
+    <insert id="insertLeave">
+        insert into leaves (leave_time, leave_reason, leave_tab,tea_id) values (#{leaveTime},#{leaveReason},#{leaveTab},#{teaId})
+    </insert>
+</mapper>
