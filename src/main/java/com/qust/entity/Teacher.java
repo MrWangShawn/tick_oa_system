@@ -19,12 +19,14 @@ public class Teacher implements Serializable {
   private String teaName;
   private String teaImage;
   private String teaSex;
-  private Date teaBirthday;
+  private String teaBirthday;
   private String teaAddress;
-  private Integer teaPhone;
+  private String teaPhone;
   private Integer flag1;
   private Integer flag2;
   private Integer roleId;
-  private Integer classId;
+  private Integer courseId;
+
+
 
 }

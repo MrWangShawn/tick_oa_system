@@ -16,5 +16,6 @@ public class Course implements Serializable {
   private Integer couId;
   private String couName;
   private Integer teaId;
+  private Teacher teacher;
 
 }

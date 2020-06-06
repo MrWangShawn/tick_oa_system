@@ -14,11 +14,14 @@ import java.util.*;
 public class Leaves implements Serializable {
 
   private Integer leaveId;
-  private Date leaveTime;
+  private String leaveTime;
   private String leaveReason;
   private Integer leaveTab;
   private Integer stuId;
   private Integer teaId;
   private Integer massterId;
+    private Student student;
+
+
 
 }
